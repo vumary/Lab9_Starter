@@ -95,7 +95,14 @@
     });
     TrackJS.track('Testing TrackJS!');               
   </script>
-        
+  <script>
+    class CustomError extends Error{
+      constructor(message){
+        super(message);
+        this.name = "NumberError";
+      }
+    }
+  </script>
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -104,7 +111,18 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try {
+        check(firstNum);
+        check(secondNum);
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      }
+      catch(error) {
+        console.error(error);
+        output.innerHTML = "ERROR";
+      }
+      finally {
+        console.log("Finally");
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
@@ -132,10 +150,10 @@
       console.clear();
     }
     function consoleDir() {
-      console.dir(output);  // double check
+      console.dir(errorBtns[0]);
     }
     function consoleDirxml() {
-      console.log(output);  // double check
+      console.log(errorBtns[0]);  
     }
     function consoleGroupStart() {
       console.group();
@@ -144,7 +162,7 @@
       console.groupEnd();
     }
     function consoleTable() {
-      console.table(output);
+      console.table(errorBtns[0]);
     }
     function startTimer() {
       console.time();
@@ -161,26 +179,9 @@
 
     TrackJS.track('Testing TrackJS!'); 
 
-    function square(num) {
-      if(typeof(num) != "number"){
-        throw new Error("num must be a valid number");
-      }
-      return num*num;
-    }
-    try{
-      square("forty");
-    }
-    catch(err){
-      console.log("square returned an error");
-    }
-    finally{
-      console.log("Done.")
-    }
-
-    class CustomError extends Error{
-      constructor(message){
-        super(message);
-        this.name = "NumberError";
+    function check(num) {
+      if(isNaN(num)){
+        throw new CustomError("Input must be a valid number");
       }
     }
 
