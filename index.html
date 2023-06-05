@@ -69,24 +69,33 @@
     </form>
 
     <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
+      <button onclick="consoleLog()">Console Log</button>
+      <button onclick="consoleError()">Console Error</button>
+      <button onclick="consoleCount()">Console Count</button>
+      <button onclick="consoleWarn()">Console Warn</button>
+      <button onclick="consoleAssert()">Console Assert</button>
+      <button onclick="consoleClear()">Console Clear</button>
+      <button onclick="consoleDir()">Console Dir</button>
+      <button onclick="consoleDirxml()">Console dirxml</button>
+      <button onclick="consoleGroupStart()">Console Group Start</button>
+      <button onclick="consoleGroupEnd()">Console Group End</button>
+      <button onclick="consoleTable()">Console Table</button>
+      <button onclick="startTimer()">Start Timer</button>
+      <button onclick="endTimer()">End Timer</button>
+      <button onclick="consoleTrace()">Console Trace</button>
+      <button onclick="triggerGlobalError()">Trigger a Global Error</button>
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "f4469394951e4f7aa3a6d5f135032bc3"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+    TrackJS.track('Testing TrackJS!');               
+  </script>
+        
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -102,6 +111,79 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    function consoleLog() {
+      console.log("Console Log Demo");
+    }
+    function consoleError() {
+      console.error("Console Error Demo");
+    }
+    function consoleCount() {
+      console.count("Console Count Demo");
+    }
+    function consoleWarn() {
+      console.warn("Console Warn Demo");
+    }
+    function consoleAssert() {
+      let _assert = true;
+      console.assert(_assert == false, "Console Assert Demo: _assert not false");
+    }
+    function consoleClear() {
+      console.clear();
+    }
+    function consoleDir() {
+      console.dir(output);  // double check
+    }
+    function consoleDirxml() {
+      console.log(output);  // double check
+    }
+    function consoleGroupStart() {
+      console.group();
+    }
+    function consoleGroupEnd() {
+      console.groupEnd();
+    }
+    function consoleTable() {
+      console.table(output);
+    }
+    function startTimer() {
+      console.time();
+    }
+    function endTimer() {
+      console.timeEnd();
+    }
+    function consoleTrace() {
+      console.trace();
+    }
+    function triggerGlobalError() {
+      throw new Error("Global Error");
+    }
+
+    TrackJS.track('Testing TrackJS!'); 
+
+    function square(num) {
+      if(typeof(num) != "number"){
+        throw new Error("num must be a valid number");
+      }
+      return num*num;
+    }
+    try{
+      square("forty");
+    }
+    catch(err){
+      console.log("square returned an error");
+    }
+    finally{
+      console.log("Done.")
+    }
+
+    class CustomError extends Error{
+      constructor(message){
+        super(message);
+        this.name = "NumberError";
+      }
+    }
+
   </script>
 </body>
 
